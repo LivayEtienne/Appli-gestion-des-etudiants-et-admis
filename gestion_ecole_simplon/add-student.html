@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Étudiant</title>
+    <link rel="stylesheet" href="style css/style.css">
+    <!-- Inclure Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Inscription Étudiant</h1>
+        <!-- Formulaire d'inscription étudiant -->
+        <form action="add-student.php" method="POST" id="studentForm" class="form-block">
+            <label for="nom">Nom:</label>
+            <input type="text" id="nom" name="nom" placeholder="Nom de l'étudiant" required pattern="[A-Za-z\s\-']+" title="Lettres, tirets, et apostrophes uniquement">
+            <span id="nomError" class="error-message">Les espaces de début et les chiffres ne sont pas considérer</span>
+
+            <label for="prenom">Prénom:</label>
+            <input type="text" id="prenom" name="prenom" placeholder="Prénom de l'étudiant" required pattern="[A-Za-z\s\-']+" title="Lettres, tirets, et apostrophes uniquement">
+            <span id="prenomError" class="error-message">Les espaces de début et les chiffres ne sont pas considérer</span>
+
+            <label for="date_naissance">Date de naissance:</label>
+            <input type="date" id="date_naissance" name="date_naissance" required max="2008-12-31">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email de l'étudiant" required>
+
+            <label for="telephone">Téléphone:</label>
+            <input type="tel" id="telephone" name="telephone" placeholder="Téléphone de l'étudiant" required pattern="[0-9]+" title="Chiffres uniquement">
+
+            <label for="niveau">Niveau:</label>
+            <select id="niveau" name="niveau" required>
+                <option value="L1">L1</option>
+                <option value="L2">L2</option>
+                <option value="L3">L3</option>
+                <option value="M1">M1</option>
+                <option value="M2">M2</option>
+            </select>
+
+            <button type="submit">Ajouter</button>
+            <button type="button" onclick="window.location.href='todo.php'">Retour</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérification en temps réel pour le champ "nom"
+            document.getElementById('nom').addEventListener('input', function() {
+                const nomError = document.getElementById('nomError');
+                if (this.value.startsWith(' ')) {
+                    nomError.style.display = 'inline';
+                    this.style.borderColor = 'red';
+                } else {
+                    nomError.style.display = 'none';
+                    this.style.borderColor = '';
+                }
+            });
+
+            // Vérification en temps réel pour le champ "prénom"
+            document.getElementById('prenom').addEventListener('input', function() {
+                const prenomError = document.getElementById('prenomError');
+                if (this.value.startsWith(' ')) {
+                    prenomError.style.display = 'inline';
+                    this.style.borderColor = 'red';
+                } else {
+                    prenomError.style.display = 'none';
+                    this.style.borderColor = '';
+                }
+            });
+
+            // Validation lors de la soumission du formulaire
+            document.getElementById('studentForm').addEventListener('submit', function(event) {
+                const nom = document.getElementById('nom').value;
+                const prenom = document.getElementById('prenom').value;
+                const emailField = document.getElementById('email').value;
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+                // Vérifier s'il y a des espaces multiples dans le nom ou le prénom
+                const multipleSpacesRegex = /\s{2,}/;
+
+                if (multipleSpacesRegex.test(nom) || multipleSpacesRegex.test(prenom)) {
+                    alert("Les champs 'Nom' et 'Prénom' ne doivent pas contenir plusieurs espaces consécutifs.");
+                    event.preventDefault(); // Empêche la soumission du formulaire
+                }
+
+                // Vérifier si l'année de naissance est supérieure à 2008
+                var dob = document.getElementById('date_naissance').value;
+                if (dob) {
+                    var year = new Date(dob).getFullYear();
+                    if (year > 2008) {
+                        alert("L'année de naissance doit être inférieure ou égale à 2008.");
+                        event.preventDefault(); // Empêche l'envoi du formulaire
+                        return;
+                    }
+                }
+
+                // Validation de l'email
+                if (!emailRegex.test(emailField)) {
+                    alert("L'adresse email n'est pas valide.");
+                    document.getElementById('email').focus();
+                    event.preventDefault(); // Empêche la soumission du formulaire si l'email est invalide
+                    return;
+                }
+
+                // Validation des espaces pour "nom" et "prenom" lors de la soumission
+                if (nom.startsWith(' ') || prenom.startsWith(' ')) {
+                    alert("Le nom et le prénom ne doivent pas commencer par un espace.");
+                    event.preventDefault(); // Empêche l'envoi du formulaire
+                }
+            });
+        });
+    </script>
+</body>
+</html>

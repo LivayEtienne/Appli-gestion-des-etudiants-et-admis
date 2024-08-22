@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Administrateur</title>
+    <link rel="stylesheet" href="style css/admin.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Inscription Administrateur</h1>
+        <!-- Formulaire d'inscription administrateur -->
+        <form action="admin.php" method="POST" class="form-block" id="studentForm">
+            <label for="nom">Nom:</label>
+            <input type="text" id="nom" name="nom" placeholder="Nom de l'administrateur" required pattern="[A-Za-z\-']+" title="Lettres, tirets, et apostrophes uniquement">
+            <span id="nomError" class="error-message">Le nom ne doit pas commencer par un espace.</span>
+
+            <label for="prenom">Prénom:</label>
+            <input type="text" id="prenom" name="prenom" placeholder="Prénom de l'administrateur" required pattern="[A-Za-z\-']+" title="Lettres, tirets, et apostrophes uniquement">
+            <span id="prenomError" class="error-message">Le prénom ne doit pas commencer par un espace.</span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email de l'administrateur" required>
+
+            <label for="role">Rôle:</label>
+            <select id="role" name="role" required>
+                <option value="superadmin">Super_Admin</option>
+                <option value="admin">Admin</option>
+            </select>
+
+            <label for="mot_de_passe">Mot de passe:</label>
+            <div class="password-container">
+                <input type="password" id="mot_de_passe" name="mot_de_passe" placeholder="Mettre un mot de passe" required>
+                <span class="eye-icon" id="togglePassword">
+                    <i class="fa fa-eye"></i>
+                </span>
+            </div>
+
+            <button type="submit">Ajouter</button>
+            <button type="button" onclick="window.location.href='dashboard.php'">Retour à l'accueil</button>
+        </form>
+    </div>
+
+    <script>
+        // Vérification en temps réel pour le champ "nom"
+        document.getElementById('nom').addEventListener('input', function() {
+            const nomError = document.getElementById('nomError');
+            if (this.value.startsWith(' ')) {
+                nomError.style.display = 'inline';
+                this.style.borderColor = 'red';
+            } else {
+                nomError.style.display = 'none';
+                this.style.borderColor = '';
+            }
+        });
+
+        // Vérification en temps réel pour le champ "prénom"
+        document.getElementById('prenom').addEventListener('input', function() {
+            const prenomError = document.getElementById('prenomError');
+            if (this.value.startsWith(' ')) {
+                prenomError.style.display = 'inline';
+                this.style.borderColor = 'red';
+            } else {
+                prenomError.style.display = 'none';
+                this.style.borderColor = '';
+            }
+        });
+
+        // Validation lors de la soumission du formulaire
+        document.getElementById('studentForm').addEventListener('submit', function(event) {
+            const nom = document.getElementById('nom').value;
+            const prenom = document.getElementById('prenom').value;
+
+            // Vérifier s'il y a des espaces multiples dans le nom ou le prénom
+            const multipleSpacesRegex = /\s{2,}/;
+
+            if (multipleSpacesRegex.test(nom) || multipleSpacesRegex.test(prenom)) {
+                alert("Les champs 'Nom' et 'Prénom' ne doivent pas contenir plusieurs espaces consécutifs.");
+                event.preventDefault(); // Empêche la soumission du formulaire
+            }
+
+            // Récupérer la date de naissance
+            var dob = document.getElementById('date_naissance') ? document.getElementById('date_naissance').value : '';
+            if (dob) {
+                var year = new Date(dob).getFullYear();
+
+                // Vérifier si l'année est supérieure à 2008
+                if (year > 2008) {
+                    alert("L'année de naissance doit être inférieure ou égale à 2008.");
+                    event.preventDefault(); // Empêche l'envoi du formulaire
+                    return; // Sortie de la fonction si la validation échoue
+                }
+            }
+
+            // Validation de l'email
+            const emailField = document.getElementById('email');
+            const email = emailField.value;
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (!emailRegex.test(email)) {
+                alert("L'adresse email n'est pas valide.");
+                emailField.focus();
+                event.preventDefault(); // Empêche la soumission du formulaire si l'email est invalide
+                return;
+            }
+
+            // Validation des espaces pour "nom" et "prenom" lors de la soumission
+            if (nom.startsWith(' ') || prenom.startsWith(' ')) {
+                alert("Le nom et le prénom ne doivent pas commencer par un espace.");
+                event.preventDefault(); // Empêche l'envoi du formulaire
+            }
+        });
+
+        const passwordInput = document.getElementById('mot_de_passe');
+        const togglePassword = document.getElementById('togglePassword');
+        const icon = togglePassword.querySelector('i');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            icon.classList.toggle('fa-eye-slash');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+/* Styles généraux du corps de la page */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #5a189a; /* Violet foncé */
+    color: #fff; /* Texte en blanc */
+    transition: background-color 0.5s ease;
+}
+
+/* Conteneur principal */
+.containerx {
+    width: 80%;
+    background: rgba(90, 24, 154, 0.9); /* Violet avec transparence */
+    margin: auto;
+    margin-top: 50px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+    backdrop-filter: blur(10px); /* Effet de flou sur le fond */
+}
+
+/* Titre principal */
+h1 {
+    color: #fff; /* Texte en blanc */
+    font-size: 32px; /* Agrandissement du titre */
+    text-align: center; /* Centrer le titre */
+    margin-bottom: 30px;
+}
+
+/* Tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #6a1b9a; /* Violet un peu plus clair */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table, th, td {
+    border: none; /* Suppression des bordures */
+}
+
+th {
+    background-color: #3e4a5a;
+    color: #fff; /* Texte en blanc */
+    padding: 15px;
+    font-size: 16px;
+    text-align: left; /* Alignement du texte des en-têtes */
+}
+
+td {
+    padding: 12px;
+    text-align: center; /* Centrer le texte par défaut */
+    color: #fff; /* Texte en blanc */
+}
+
+td.module-col, td.moyenne-col {
+    text-align: center; /* Centrer le texte spécifiquement pour les colonnes de notes */
+}
+
+tr:nth-child(even) {
+    background-color: #764ba2; /* Violet clair pour les lignes paires */
+}
+
+tr:hover {
+    background-color: #d1e7fd; /* Effet de survol */
+}
+
+/* Niveaux */
+.niveaux-container {
+    display: flex;
+    justify-content: center; /* Centrer les boutons horizontalement */
+    flex-wrap: wrap; /* Permettre un retour à la ligne si nécessaire */
+    margin-bottom: 20px; /* Espacement en dessous */
+}
+
+.niveaux-container a {
+    display: inline-block; /* Permet l'alignement en ligne */
+    padding: 12px 25px;
+    background-color: #9b5de5; /* Violet vif pour les boutons */
+    color: #fff; /* Texte en blanc */
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(155, 93, 229, 0.3);
+    border: 2px solid transparent;
+    margin: 5px; /* Espacement entre les boutons */
+}
+
+.niveaux-container a:hover {
+    background-color: #7b2cbf; /* Violet plus foncé au survol */
+    border-color: #7b2cbf;
+    transform: scale(1.1);
+}
+
+/* Boutons */
+button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    background-color: #9b5de5;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(155, 93, 229, 0.3);
+    border: 2px solid transparent;
+}
+
+button:hover {
+    background-color: #7b2cbf;
+    border-color: #7b2cbf;
+    transform: scale(1.05);
+}
+
+/* Actions dans le tableau */
+.actions button {
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+.edit-btn {
+    background-color: #ffc107;
+    color: #fff; /* Texte en blanc */
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+.add-note-btn {
+    background-color: #17a2b8;
+    color: #fff; /* Texte en blanc */
+}
+
+.add-note-btn:hover {
+    background-color: #138496;
+}
+
+/* Statut d'admission */
+.statut-recale {
+    background-color: red; /* Couleur de fond rouge pour les recalés */
+    color: #fff; /* Texte en blanc */
+}
+
+.statut-admis {
+    background-color: #218838; /* Couleur de fond verte pour les admis */
+    color: #fff; /* Texte en blanc */
+}
+
+.statut-en-cours {
+    background-color: orange; /* Couleur de fond orange pour "en cours" */
+    color: #fff; /* Texte en blanc */
+}

@@ -1,0 +1,159 @@
+/* Styles généraux du corps de la page */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #6a1b9a; /* Fond violet */
+    background-image: url(tof.avif);
+    background-size: cover;
+    transition: background-color 0.5s ease;
+}
+#studentForm{
+    padding-right: 10px;
+}
+
+/* Conteneur principal du formulaire */
+.container {
+    background-color: #2c3e50;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px; /* Largeur du conteneur */
+    text-align: center;
+    animation: formFadeIn 1s ease-out;
+}
+
+/* Titre du formulaire */
+h1 {
+    color: #fff;
+    font-size: 24px;
+    margin-top: 35px;
+    animation: slideIn 1s ease-out;
+}
+
+/* Styles du formulaire */
+.form-block {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 20px; /* Augmenté pour plus d'espace entre les champs */
+}
+
+/* Labels du formulaire */
+label {
+    align-self: flex-start;
+    font-size: 14px;
+    color: #ddd;
+    margin-bottom: 5px;
+}
+
+/* Champs de formulaire */
+input, select {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #ffffff;
+    width: 100%; /* Assure que les champs occupent toute la largeur disponible */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Champs de date */
+input[type="date"] {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #ffffff;
+    width: 100%; /* Assure que les champs de date ont la même largeur */
+}
+
+/* Boutons */
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    background: linear-gradient(to right, #2e1ae6, #1bafc9);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(to right, #ffc371, #ff5f6d);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Messages d'erreur */
+.error-message {
+    display: none;
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Animation du formulaire */
+@keyframes formFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation du titre */
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Conteneur du mot de passe (si utilisé) */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#password {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+#togglePassword {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+#togglePassword:hover {
+    color: #333;
+}
+#niveau{
+    width: 100%;
+}
