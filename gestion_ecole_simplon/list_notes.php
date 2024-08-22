@@ -40,7 +40,7 @@ $selected_niveau = isset($_GET['niveau']) ? $_GET['niveau'] : 'L1';
         <?php
         // Récupérer les étudiants pour le niveau sélectionné
         $sql_etudiants = "
-            SELECT e.id, e.nom, e.prenom, 
+            SELECT e.id, e.nom, e.prenom, e.matricule, 
                    IFNULL(n.module1, '-') AS module1,
                    IFNULL(n.module2, '-') AS module2,
                    IFNULL(n.module3, '-') AS module3,
@@ -64,13 +64,14 @@ $selected_niveau = isset($_GET['niveau']) ? $_GET['niveau'] : 'L1';
         if ($stmt_etudiants = mysqli_prepare($link, $sql_etudiants)) {
             mysqli_stmt_bind_param($stmt_etudiants, "s", $selected_niveau);
             mysqli_stmt_execute($stmt_etudiants);
-            mysqli_stmt_bind_result($stmt_etudiants, $id, $nom, $prenom, $module1, $module2, $module3, $module4, $moyenne, $statut_admission);
+            mysqli_stmt_bind_result($stmt_etudiants, $id, $nom, $prenom, $matricule, $module1, $module2, $module3, $module4, $moyenne, $statut_admission);
 
             $etudiants = [];
             while (mysqli_stmt_fetch($stmt_etudiants)) {
                 $etudiants[$id] = [
                     'nom' => $nom,
                     'prenom' => $prenom,
+                    'matricule' => $matricule,
                     'module1' => $module1,
                     'module2' => $module2,
                     'module3' => $module3,
@@ -113,6 +114,10 @@ $selected_niveau = isset($_GET['niveau']) ? $_GET['niveau'] : 'L1';
                     echo '<form action="edit_notes.php" method="POST" style="display:inline;">';
                     echo '<input type="hidden" name="id" value="' . htmlspecialchars($etudiant_id) . '">';
                     echo '<button type="submit" class="edit-btn">Modifier</button>';
+                    echo '</form>';
+                    echo '<form action="bulletin.php" method="GET" style="display:inline;">';
+                    echo '<input type="hidden" name="id" value="' . htmlspecialchars($etudiant_id) . '">';
+                    echo '<button type="submit" class="bulletin-btn">Tirer un bulletin</button>';
                     echo '</form>';
                 } else {
                     echo '<form action="ajout_noteform.php" method="GET" style="display:inline;">';
