@@ -66,7 +66,7 @@ mysqli_close($link);
                 </ul>
             </nav>
             <div class="logout">
-                <button><a href="login.html"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></button>
+                <button><a href="loggin.php"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></button>
             </div>
         </aside>
 

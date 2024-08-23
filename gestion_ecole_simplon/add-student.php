@@ -3,10 +3,10 @@ require_once "config.php";
 session_start();
 
 // Vérifiez si l'utilisateur est connecté
-// if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-//     header("Location: login.html");
-//     exit();
-// }
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.html");
+    exit();
+}
 
 // Traitement du formulaire
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,10 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $telephone = $_POST['telephone'];
     $niveau = $_POST['niveau'];
 
-    // Générer le matricule
-    $annee_naissance = date('Y', strtotime($date_naissance));
-    $matricule = 'ET' . $annee_naissance . strtoupper(substr($nom, 0, 1)) . strtoupper(substr($prenom, 0, 1));
-    
+    // Générer le matricule personnalisé
+    $jour_mois_naissance = date('dm', strtotime($date_naissance)); // Format 'ddmm'
+    $lettre_nom = strtoupper(substr($nom, 0, 1)); // Première lettre du nom
+    $lettre_prenom = strtoupper(substr($prenom, 0, 1)); // Première lettre du prénom
+    $chiffres_auto = sprintf("%04d", rand(0, 9999)); // Générer quatre chiffres aléatoires
+
+    $matricule = 'ET' . $jour_mois_naissance . $lettre_nom . $lettre_prenom . $chiffres_auto;
+
     // Déterminer si l'étudiant est archivé ou non
     $archive = isset($_POST['archive']) ? 1 : 0;
 
@@ -54,6 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

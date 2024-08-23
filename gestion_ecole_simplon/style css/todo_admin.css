@@ -1,6 +1,19 @@
+/* Styles de base pour la page */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Dégradé violet */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #fff; /* Texte en blanc */
+}
+
 .containerx {
-    width: 100%;
-    background: white;
+    width: 70%;
+    background: linear-gradient(to right, #8e2de2, #4a00e0); /* Dégradé violet pour containerx */
     margin: auto;
     margin-top: 50px;
     padding: 20px;
@@ -8,19 +21,54 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+h1 {
+    color: #fff; /* Texte en blanc */
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Styles pour les boutons */
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Dégradé violet */
+    color: #fff; /* Texte en blanc */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transition fluide */
+    display: inline-block;
+    text-decoration: none;
+}
+
+button a {
+    color: #fff; /* Texte en blanc */
+    text-decoration: none;
+}
+
+button:hover {
+    background: linear-gradient(to right, #2575fc, #6a11cb); /* Inversion des couleurs au survol */
+    transform: scale(1.05); /* Agrandir légèrement au survol */
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3); /* Ombre plus prononcée */
+}
+
+button:active {
+    transform: scale(0.95); /* Réduction au clic */
+}
+
+/* Styles du tableau */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
 th, td {
     padding: 12px;
     text-align: left;
+    color: #fff; /* Texte en blanc pour le tableau */
 }
 
 th {
@@ -28,10 +76,13 @@ th {
     color: black;
 }
 
-tr:nth-child(even) {
-    background-color: #f9f9f9;
+td {
+    background-color: #2c3e50; /* Fond gris foncé */
 }
 
+
+
+/* Styles pour les boutons d'action */
 .actions {
     display: flex;
     gap: 10px;
@@ -45,230 +96,21 @@ tr:nth-child(even) {
 }
 
 .edit-btn {
-    background-color: green;
+    background-color: #28a745; /* Vert pour l'édition */
     color: white;
 }
 
 .delete-btn {
-    background-color: #dc3545;
+    background-color: #dc3545; /* Rouge pour la suppression */
     color: white;
 }
 
 .archive-btn {
-    background-color: orange;
+    background-color: #ffc107; /* Jaune pour l'archivage */
     color: white;
 }
 
 .update-btn {
-    background-color: #28a745;
+    background-color: #17a2b8; /* Bleu pour la mise à jour */
     color: white;
 }
-body {
-    font-family: 'Arial', sans-serif;
-    /* background-color: #0947a4; */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-image: url(tof.avif);
-    background-size: cover;
-}
-
-.container {
-    background-color:#2c3e50;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-}
-
-h1 {
-    color: #333;
-    font-size: 24px;
-    margin-top: 35px;
-}
-
-.form-block {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    gap: 15px;
-}
-
-label {
-    align-self: flex-start;
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-input, select {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    width: 95%;
-}
-
-input:focus, select:focus {
-    border-color: #1d72b8;
-    outline: none;
-}
-
-button {
-    padding: 12px 20px;
-    font-size: 16px;
-    margin: 10px;
-    border-radius: 5px;
-    border: none;
-    background: linear-gradient(to right, #2e1ae6, #1bafc9);
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: inline-block;
-}
-
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-a{
-    text-decoration: none;
-    color: #fff;
-}
-ul li a {
-    display: inline-block;
-    padding: 15px 30px;
-    color: #fff;
-    background: linear-gradient(to right, #2e1ae6, #1bafc9); 
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background 0.3s ease, transform 0.3s ease;
-    /* Assurez-vous que les boutons ont une largeur qui ne dépasse pas le conteneur */
-    width: 400px;
-    margin-top: 20px;
-    /* Aligner à gauche avec le marge gauche */
-    margin-left: 0;
-    margin-right: auto;
-}
-
-ul li a:hover {
-    background: linear-gradient(to right, #ffc371, #ff5f6d); /* Inversement des couleurs au survol */
-    transform: scale(1.05); /* Agrandir légèrement au survol */
-}
-
-ul li a:active {
-    transform: scale(0.95); /* Réduction au clic */
-}
-.containerd{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 600px;
-    border-radius: 10px;
-    margin-top: 20px;
-    background-color: #ddd;
-}
-/*
-.containerd{
-    width: 50%;
-    background: linear-gradient(to right, #fbfdfd, #3d83ec);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
-    border-radius: 100px;
-    opacity: 0.9;
-}
-*/
-.container {
-    width: 100%;
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-
-/* .modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-}
-
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    z-index: 500;
-}
-
-#confirmYes #confirmNo {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px; 
-}*/
-
-button:hover {
-    background: linear-gradient(to right, #ffc371, #ff5f6d);
-    transform: scale(1.05)
-}
-
-.orange{
-    background-color: #ff5f6d;
-}
-
-.password-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-#mot-de-passe {
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#togglePassword {
-    position: absolute;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-    color: #888;
-}
-
-
-
-
-
-

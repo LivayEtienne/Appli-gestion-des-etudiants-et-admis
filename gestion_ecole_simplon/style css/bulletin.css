@@ -1,62 +1,87 @@
-/* Style général du corps */
+/* Styles généraux */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #6a1b9a; 
+    background-color: #f5f5f5;
     margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    padding: 0;
 }
 
-/* Conteneur principal du bulletin */
 .bulletin-container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
     max-width: 800px;
-    width: 100%;
-    text-align: left;
-    border: 2px solid #007bff;
+    margin: 50px auto;
+    background-color: #ffffff;
+    padding: 40px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border-radius: 10px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Bouton de retour en haut à gauche */
+.top-left-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    opacity: 0;
+    animation: slideInLeft 0.8s ease forwards 0.5s;
+}
+
+.btn-retour {
+    display: inline-flex;
+    align-items: center;
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-retour i {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.btn-retour:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
 }
 
 /* En-tête du bulletin */
 .bulletin-header {
     text-align: center;
-    border-bottom: 2px solid #007bff;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
+    margin-bottom: 40px;
+    animation: fadeInDown 1s ease;
 }
 
 .bulletin-header h1 {
-    color: #333;
-    font-size: 28px;
     margin: 0;
-    font-weight: bold;
+    font-size: 32px;
+    color: #2c3e50;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards 0.2s;
 }
 
 .bulletin-header p {
-    font-size: 18px;
-    color: #555;
     margin: 5px 0;
+    color: #7f8c8d;
+    font-size: 18px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards 0.4s;
 }
 
-/* Section d'information de l'étudiant */
+/* Informations sur l'étudiant */
 .student-info {
     margin-bottom: 30px;
+    font-size: 18px;
+    color: #34495e;
+    animation: fadeIn 1s ease forwards 0.6s;
 }
 
 .student-info p {
-    font-size: 18px;
-    color: #333;
-    margin: 10px 0;
-}
-
-.student-info p strong {
-    display: inline-block;
-    width: 150px;
+    margin: 8px 0;
 }
 
 /* Tableau des notes */
@@ -64,117 +89,156 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 30px;
+    animation: fadeInUp 1s ease forwards 0.8s;
 }
 
 .module-scores th, .module-scores td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid #bdc3c7;
+    padding: 12px;
     text-align: left;
     font-size: 18px;
+    transition: background-color 0.3s ease;
 }
 
 .module-scores th {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #ecf0f1;
+    color: #2c3e50;
 }
 
 .module-scores td {
-    color: #333;
+    background-color: #ffffff;
+    color: #2c3e50;
+}
+
+.module-scores tr:hover td {
+    background-color: #f0f8ff;
 }
 
 .module-icon {
+    color: #3498db;
     margin-right: 10px;
-    color: #007bff;
 }
 
-/* Affichage de la moyenne générale */
+/* Moyenne générale */
 .moyenne {
-    font-size: 22px;
-    color: #28a745;
+    font-size: 20px;
     font-weight: bold;
-    text-align: right;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards 1s;
 }
 
-/* Pied de page */
+/* Messages de résultat */
+.result-message {
+    text-align: center;
+    font-size: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.2s;
+    transition: transform 0.3s ease;
+}
+
+.result-message i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+.result-message.echec {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.result-message.encouragement {
+    background-color: #f1c40f;
+    color: #ffffff;
+}
+
+.result-message.felicitation {
+    background-color: #2ecc71;
+    color: #ffffff;
+}
+
+.result-message.info {
+    background-color: #95a5a6;
+    color: #ffffff;
+}
+
+.result-message:hover {
+    transform: scale(1.05);
+}
+
+/* Bouton retour au tableau de bord */
 .footer {
     text-align: center;
     margin-top: 20px;
-    font-size: 14px;
-    color: #777;
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards 1.4s;
 }
 
-.footer a {
-    color: #007bff;
+.btn-dashboard {
+    display: inline-flex;
+    align-items: center;
+    background-color: #8e44ad;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
     text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.footer a:hover {
-    text-decoration: underline;
-}
-.bulletin-header {
-    text-align: center;
-    border-bottom: 2px solid #007bff;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    background-color: #007bff; /* Couleur de fond */
-    color: #fff; /* Couleur du texte */
-    padding: 20px; /* Espacement intérieur */
-    border-radius: 10px; /* Coins arrondis */
-}
-
-.bulletin-header h1 {
-    font-size: 32px;
-    margin: 0;
-    font-weight: bold;
-    text-transform: uppercase; /* Texte en majuscules */
-    letter-spacing: 1.5px; /* Espacement des lettres */
-}
-
-.bulletin-header p {
+.btn-dashboard i {
+    margin-right: 8px;
     font-size: 18px;
-    margin: 5px 0;
-    font-style: italic; /* Texte en italique */
-    color: #f0f0f0; /* Couleur légèrement plus claire pour les paragraphes */
 }
 
+.btn-dashboard:hover {
+    background-color: #732d91;
+    transform: translateY(-2px);
+}
 
+/* Responsive Design */
 @media (max-width: 600px) {
     .bulletin-container {
+        width: 95%;
         padding: 20px;
     }
-
-    .student-info p strong {
-        width: 100px;
-    }
-
+    
     .module-scores th, .module-scores td {
         font-size: 16px;
-        padding: 8px;
+        padding: 10px;
     }
-
-    .moyenne {
-        font-size: 20px;
+    
+    .student-info, .moyenne, .result-message {
+        font-size: 16px;
     }
 }
 
-/* Styles pour les messages de résultat */
-.result-message {
-    padding: 15px;
-    color: white;
-    text-align: center;
-    margin-top: 20px;
-    font-weight: bold;
-    border-radius: 5px;
+/* Keyframes for Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.recalé {
-    background-color: #e74c3c; /* Rouge */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.peu-mieux-faire {
-    background-color: #f1c40f; /* Jaune */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.félicitation {
-    background-color: #2ecc71; /* Vert */
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-100px); }
+    to { opacity: 1; transform: translateX(0); }
 }

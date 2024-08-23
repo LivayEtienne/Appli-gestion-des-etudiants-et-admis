@@ -36,28 +36,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($roleUser === 'superadmin') {
                     header('Location: dashboard.php');
                     exit();
-                } elseif ($roleUser === 'admin') {
-                    header('Location: dashboard_simple.html');
-                    exit();
                 } else {
-                    echo "<p>Le rôle de l'utilisateur est inconnu.</p>";
+                    $_SESSION['login_message'] = "Connexion réussie en tant qu'administrateur. Accès limité.";
+                    header('Location: loggin.php');
+                    exit();
                 }
             } else {
-                echo "<p>Email ou mot de passe incorrect.</p>";
-                echo "<p><a href='login.html'>Retourner au formulaire de connexion</a></p>";
+                $_SESSION['login_message'] = "Email ou mot de passe incorrect.";
+                header('Location: loggin.php');
+                exit();
             }
         } else {
-            echo "<p>Email ou mot de passe incorrect.</p>";
-            echo "<p><a href='login.html'>Retourner au formulaire de connexion</a></p>";
+            $_SESSION['login_message'] = "Email ou mot de passe incorrect.";
+            header('Location: loggin.php');
+            exit();
         }
 
         mysqli_stmt_close($stmt);
     } else {
-        echo "Erreur de préparation de la requête.";
+        $_SESSION['login_message'] = "Erreur de préparation de la requête.";
+        header('Location: loggin.php');
+        exit();
     }
 
     mysqli_close($link);
 } else {
-    header("Location: login.html");
+    header("Location: loggin.php");
     exit();
 }
