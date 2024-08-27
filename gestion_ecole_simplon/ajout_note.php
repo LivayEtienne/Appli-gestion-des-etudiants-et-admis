@@ -2,86 +2,60 @@
 require_once "config.php";
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $etudiant_id = isset($_POST['etudiant_id']) ? intval($_POST['etudiant_id']) : null;
-    $module1 = $_POST['module1'];
-    $module2 = $_POST['module2'];
-    $module3 = $_POST['module3'];
-    $module4 = $_POST['module4'];
-    
+// Vérification de la méthode POST
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['etudiant_id'])) {
+    $etudiant_id = $_POST['etudiant_id'];
 
-    if ($etudiant_id === null) {
-        die("L'ID de l'étudiant est manquant.");
+    // Préparation de la requête SQL pour mettre à jour ou insérer les notes
+    $sql_update = "UPDATE notes SET ";
+    $params = [];
+    $types = "";
+
+    if (!empty($_POST['module1'])) {
+        $sql_update .= "module1 = ?, ";
+        $params[] = $_POST['module1'];
+        $types .= "d";
+    }
+    if (!empty($_POST['module2'])) {
+        $sql_update .= "module2 = ?, ";
+        $params[] = $_POST['module2'];
+        $types .= "d";
+    }
+    if (!empty($_POST['module3'])) {
+        $sql_update .= "module3 = ?, ";
+        $params[] = $_POST['module3'];
+        $types .= "d";
+    }
+    if (!empty($_POST['module4'])) {
+        $sql_update .= "module4 = ?, ";
+        $params[] = $_POST['module4'];
+        $types .= "d";
     }
 
-    // Calculer la moyenne
-    $moyenne = ($module1 + $module2 + $module3 + $module4) / 4;
-    $statut_admission = $moyenne >= 10 ? 'admis' : 'recalé';
+    // Supprimer la virgule finale et ajouter la condition WHERE
+    $sql_update = rtrim($sql_update, ", ") . " WHERE etudiant_id = ?";
+    $params[] = $etudiant_id;
+    $types .= "i";
 
-    // Vérifier si l'étudiant existe
-    $sql_check_student = "SELECT id FROM etudiants WHERE id = ?";
-    if ($stmt_check = mysqli_prepare($link, $sql_check_student)) {
-        mysqli_stmt_bind_param($stmt_check, "i", $etudiant_id);
-        mysqli_stmt_execute($stmt_check);
-        mysqli_stmt_store_result($stmt_check);
-
-        if (mysqli_stmt_num_rows($stmt_check) == 0) {
-            echo "L'étudiant avec l'ID $etudiant_id n'existe pas.";
-            echo 'ID de l\'étudiant : ' . $etudiant_id; // Ajoutez ceci pour déboguer
-            mysqli_stmt_close($stmt_check);
-            mysqli_close($link);
-            exit();
-        }
-
-        mysqli_stmt_close($stmt_check);
-    } else {
-        echo "Erreur lors de la préparation de la vérification de l'étudiant : " . mysqli_error($link);
-        mysqli_close($link);
-        exit();
-    }
-
-    // Préparer la requête d'ajout des notes
-    $sql_note = "INSERT INTO notes (etudiant_id, module1, module2, module3, module4) VALUES (?, ?, ?, ?, ?)";
-    if ($stmt_note = mysqli_prepare($link, $sql_note)) {
-        mysqli_stmt_bind_param($stmt_note, "idddd", $etudiant_id, $module1, $module2, $module3, $module4);
-        if (mysqli_stmt_execute($stmt_note)) {
-            mysqli_stmt_close($stmt_note);
+    // Préparation de la requête SQL
+    if ($stmt = mysqli_prepare($link, $sql_update)) {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+        if (mysqli_stmt_execute($stmt)) {
+            echo "Les notes ont été mises à jour avec succès.";
         } else {
-            echo "Erreur lors de l'ajout des notes : " . mysqli_error($link);
-            mysqli_close($link);
-            exit();
+            echo "Erreur lors de la mise à jour des notes : " . mysqli_error($link);
         }
+        mysqli_stmt_close($stmt);
     } else {
-        echo "Erreur lors de la préparation de la requête d'ajout des notes : " . mysqli_error($link);
-        mysqli_close($link);
-        exit();
+        echo "Erreur de préparation de la requête : " . mysqli_error($link);
     }
-
-    // Mettre à jour le statut d'admission
-    $sql_admission = "UPDATE etudiants SET statut_admission = ? WHERE id = ?";
-    if ($stmt_admission = mysqli_prepare($link, $sql_admission)) {
-        mysqli_stmt_bind_param($stmt_admission, "si", $statut_admission, $etudiant_id);
-        if (mysqli_stmt_execute($stmt_admission)) {
-            mysqli_stmt_close($stmt_admission);
-            mysqli_close($link);
-            header("Location: list_notes.php");
-            exit();
-        } else {
-            echo "Erreur lors de la mise à jour du statut d'admission : " . mysqli_error($link);
-            mysqli_close($link);
-            exit();
-        }
-    } else {
-        echo "Erreur lors de la préparation de la requête de mise à jour du statut : " . mysqli_error($link);
-        mysqli_close($link);
-        exit();
-    }
-
 } else {
-    header("Location: ajout_noteform.php");
-    exit();
+    echo "Aucun étudiant sélectionné ou données manquantes.";
 }
+
+mysqli_close($link);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">

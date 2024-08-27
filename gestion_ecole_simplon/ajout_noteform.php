@@ -3,10 +3,10 @@ require_once "config.php";
 session_start();
 
 // Vérifie si l'utilisateur est connecté
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: login.html");
-    exit();
-}
+// if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+//     header("Location: login.php");
+//     exit();
+// }
 
 $etudiant_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $etudiant = null;
@@ -46,7 +46,7 @@ mysqli_close($link);
     <div class="containerx">
         <h1>Ajouter des Notes</h1>
         <?php if ($etudiant) : ?>
-            <form action="ajout_note.php" method="POST">
+            <form action="list_notes.php" method="POST">
                 <input type="hidden" name="etudiant_id" value="<?php echo htmlspecialchars($etudiant['id']); ?>">
                             <p class="etudiant-info">
                 <i class="fas fa-user"></i>
@@ -59,16 +59,16 @@ mysqli_close($link);
 
                 <br>
                 <label for="module1">Note Module 1 :</label>
-                <input type="number" name="module1" id="module1" step="0.01" min="0" max="20" required>
+                <input type="number" name="module1" id="module1" step="0.01" min="0" max="20">
                 <br>
                 <label for="module2">Note Module 2 :</label>
-                <input type="number" name="module2" id="module2" step="0.01" min="0" max="20" required>
+                <input type="number" name="module2" id="module2" step="0.01" min="0" max="20">
                 <br>
                 <label for="module3">Note Module 3 :</label>
-                <input type="number" name="module3" id="module3" step="0.01" min="0" max="20" required>
+                <input type="number" name="module3" id="module3" step="0.01" min="0" max="20">
                 <br>
                 <label for="module4">Note Module 4 :</label>
-                <input type="number" name="module4" id="module4" step="0.01" min="0" max="20" required>
+                <input type="number" name="module4" id="module4" step="0.01" min="0" max="20">
                 <br>
                 <button type="submit">Ajouter les Notes</button>
             </form>

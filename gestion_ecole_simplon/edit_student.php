@@ -3,54 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modifier Etudiants</title>
-    <link rel="stylesheet" href="style.css">
-
-    <style>
-        .containerx {
-            width: 80%;
-            background: white;
-            margin: auto;
-            margin-top: 50px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-top: 10px;
-        }
-
-        input, select {
-            margin-top: 5px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #28a745;
-            color: white;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
+    <title>Modifier Étudiants</title>
+    <link rel="stylesheet" href="style css/edit_student.css">
 </head>
 <body>
     <div class="containerx">
-        <h1>Modification Etudiant</h1>
+        <h1>Modification Étudiant</h1>
         <?php
         require_once "config.php";
         session_start();
@@ -61,7 +19,7 @@
         //     exit();
         // }
 
-        // Récupérer l'ID de l'administrateur à modifier
+        // Récupérer l'ID de l'étudiant à modifier
         if (isset($_POST['id']) && is_numeric($_POST['id'])) {
             $id = $_POST['id'];
 
@@ -77,17 +35,19 @@
                         $row = mysqli_fetch_assoc($result);
                         ?>
 
-                        <form action="update_student.php" method="POST">
+                        <form id="studentForm" action="update_student.php" method="POST">
                             <input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
 
                             <label for="nom">Nom:</label>
-                            <input type="text" id="nom" name="nom" placeholder="Nom de l'étudiant" pattern="[A-Za-z\s]+" title="Lettres uniquement" value="<?php echo htmlspecialchars($row['nom']); ?> "required >
+                            <input type="text" id="nom" name="nom" placeholder="Nom de l'étudiant" pattern="[A-Za-z\s]+" title="Lettres uniquement" value="<?php echo htmlspecialchars($row['nom']); ?>" required>
+                            <span id="nomError" style="color:red;display:none;">Le nom ne doit pas commencer par un espace.</span>
 
                             <label for="prenom">Prénom:</label>
-                            <input type="text" id="prenom" name="prenom" placeholder="Prénom de l'étudiant" required pattern="[A-Za-z\s]+" title="Lettres uniquement" value=" <?php echo htmlspecialchars($row['prenom']); ?>">
+                            <input type="text" id="prenom" name="prenom" placeholder="Prénom de l'étudiant" required pattern="[A-Za-z\s]+" title="Lettres uniquement" value="<?php echo htmlspecialchars($row['prenom']); ?>">
+                            <span id="prenomError" style="color:red;display:none;">Le prénom ne doit pas commencer par un espace.</span>
 
                             <label for="date_naissance">Date de naissance:</label>
-                            <input type="date" id="date_naissance" name="date_naissance" required value="<?php echo htmlspecialchars($row['date_naissance']); ?>">
+                            <input type="date" id="date_naissance" name="date_naissance" required value="<?php echo htmlspecialchars($row['date_naissance']); ?>" required max="2008-12-31"> 
 
                             <label for="email">Email:</label>
                             <input type="email" id="email" name="email" placeholder="Email de l'étudiant" required value="<?php echo htmlspecialchars($row['email']); ?>">
@@ -104,13 +64,12 @@
                                 <option value="M2" <?php echo ($row['niveau'] == 'M2') ? 'selected' : ''; ?>>M2</option>
                             </select>
 
-
                             <button type="submit">Mettre à jour</button>
                         </form>
 
                         <?php
                     } else {
-                        echo "<p>Administrateur non trouvé.</p>";
+                        echo "<p>Étudiant non trouvé.</p>";
                     }
                 } else {
                     echo "<p>Erreur lors de la récupération des données : " . mysqli_error($link) . "</p>";
@@ -127,99 +86,74 @@
         mysqli_close($link);
         ?>
     </div>
+
     <script>
-        // temps d'inactivité avant la déconnexion (en millisecondes)
-const INACTIVITY_TIME = 60000; // 1 minute
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérification en temps réel pour le champ "nom"
+            document.getElementById('nom').addEventListener('input', function() {
+                const nomError = document.getElementById('nomError');
+                if (this.value.startsWith(' ')) {
+                    nomError.style.display = 'inline';
+                    this.style.borderColor = 'red';
+                } else {
+                    nomError.style.display = 'none';
+                    this.style.borderColor = '';
+                }
+            });
 
-let inactivityTimer;
-let countdownTimer;
-let timeLeft = INACTIVITY_TIME;
+            // Vérification en temps réel pour le champ "prénom"
+            document.getElementById('prenom').addEventListener('input', function() {
+                const prenomError = document.getElementById('prenomError');
+                if (this.value.startsWith(' ')) {
+                    prenomError.style.display = 'inline';
+                    this.style.borderColor = 'red';
+                } else {
+                    prenomError.style.display = 'none';
+                    this.style.borderColor = '';
+                }
+            });
 
-function startCountdown() {
-    const countdownDisplay = document.getElementById('countdown');
-    countdownTimer = setInterval(() => {
-        if (timeLeft <= 0) {
-            clearInterval(countdownTimer);
-            logoutUser();
-            return;
-        }
+            // Validation lors de la soumission du formulaire
+            document.getElementById('studentForm').addEventListener('submit', function(event) {
+                const nom = document.getElementById('nom').value;
+                const prenom = document.getElementById('prenom').value;
+                const emailField = document.getElementById('email').value;
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-        const minutes = Math.floor(timeLeft / 60000);
-        const seconds = Math.floor((timeLeft % 60000) / 1000);
-        countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        timeLeft -= 1000;
-    }, 1000);
-}
+                // Vérifier s'il y a des espaces multiples dans le nom ou le prénom
+                const multipleSpacesRegex = /\s{2,}/;
 
-function resetTimer() {
-    // Effacer le timer précédent
-    clearTimeout(inactivityTimer);
-    clearInterval(countdownTimer);
+                if (multipleSpacesRegex.test(nom) || multipleSpacesRegex.test(prenom)) {
+                    alert("Les champs 'Nom' et 'Prénom' ne doivent pas contenir plusieurs espaces consécutifs.");
+                    event.preventDefault(); // Empêche la soumission du formulaire
+                }
 
-    // Réinitialiser le temps restant
-    timeLeft = INACTIVITY_TIME;
-    startCountdown();
+                // Vérifier si l'année de naissance est supérieure à 2008
+                var dob = document.getElementById('date_naissance').value;
+                if (dob) {
+                    var year = new Date(dob).getFullYear();
+                    if (year > 2008) {
+                        alert("L'année de naissance doit être inférieure ou égale à 2008.");
+                        event.preventDefault(); // Empêche l'envoi du formulaire
+                        return;
+                    }
+                }
 
-    // Redémarrer le timer
-    inactivityTimer = setTimeout(logoutUser, INACTIVITY_TIME);
-}
+                // Validation de l'email
+                if (!emailRegex.test(emailField)) {
+                    alert("L'adresse email n'est pas valide.");
+                    document.getElementById('email').focus();
+                    event.preventDefault(); // Empêche la soumission du formulaire si l'email est invalide
+                    return;
+                }
 
-function logoutUser() {
-    // Logique pour déconnecter l'utilisateur
-    window.location.href = './login.php'; // Ajustez cette URL en fonction de votre logique de déconnexion
-}
-
-// Créer l'élément de timer dans la page
-function createTimerDisplay() {
-    const timerDiv = document.createElement('div');
-    timerDiv.id = 'timer-container';
-    timerDiv.style.position = 'fixed';
-    timerDiv.style.top = '0';
-    timerDiv.style.right = '0';
-    timerDiv.style.backgroundColor = '#f0f0f0';
-    timerDiv.style.border = '1px solid #ccc';
-    timerDiv.style.padding = '5px 10px';
-    timerDiv.style.zIndex = '1000';
-    timerDiv.style.fontFamily = 'Arial, sans-serif';
-    timerDiv.style.fontSize = '14px';
-    timerDiv.style.color = '#333';
-
-    const icon = document.createElement('img');
-    icon.src = 'time.png'; // Remplacez par le chemin vers votre icône d'horloge
-    icon.style.width = '16px';
-    icon.style.height = '16px';
-    icon.style.verticalAlign = 'middle';
-    icon.alt = 'Clock Icon';
-
-    const countdownDisplay = document.createElement('span');
-    countdownDisplay.id = 'countdown';
-    countdownDisplay.textContent = '1:00'; // Initialisation à 1 minute
-
-    timerDiv.appendChild(icon);
-    timerDiv.appendChild(document.createTextNode(' '));
-    timerDiv.appendChild(countdownDisplay);
-
-    document.body.appendChild(timerDiv);
-}
-
-window.onload = function() {
-    createTimerDisplay();
-    resetTimer(); // Initialiser le timer lorsque la page est chargée
-
-    // Événements qui réinitialisent le timer
-    document.onmousemove = resetTimer;
-    document.onkeypress = resetTimer;
-    document.ontouchstart = resetTimer; // Pour les appareils tactiles
-    document.onchange = resetTimer;
-
-    // Assurez-vous de réinitialiser le timer lorsque l'utilisateur revient sur la page après une absence
-    window.onfocus = resetTimer;
-    window.onblur = function() {
-        clearTimeout(inactivityTimer); // Efface le timer lorsque la fenêtre n'est pas active
-        clearInterval(countdownTimer);
-    };
-};
+                // Validation des espaces pour "nom" et "prenom" lors de la soumission
+                if (nom.startsWith(' ') || prenom.startsWith(' ')) {
+                    alert("Le nom et le prénom ne doivent pas commencer par un espace.");
+                    event.preventDefault(); // Empêche l'envoi du formulaire
+                }
+            });
+        });
     </script>
 </body>
 </html>
-

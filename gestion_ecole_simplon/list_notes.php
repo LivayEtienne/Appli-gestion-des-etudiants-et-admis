@@ -3,10 +3,10 @@ require_once "config.php";
 session_start();
 
 // Vérifie si l'utilisateur est connecté
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: login.html");
-    exit();
-}
+// if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+//     header("Location: login.php");
+//     exit();
+// }
 
 $niveaux = ['L1', 'L2', 'L3', 'M1', 'M2'];
 
@@ -25,16 +25,21 @@ $selected_niveau = isset($_GET['niveau']) ? $_GET['niveau'] : 'L1';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Étudiants par Niveau</title>
     <link rel="stylesheet" href="style css/list_notes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 
 <body>
+    <button id="toggle-mode"><i class="fas fa-sun"></i> Mode Jour</button>
+
     <div class="containerx">
         <h1>Liste des Étudiants par Niveau</h1>
         <div class="niveaux-container">
             <?php foreach ($niveaux as $niveau) : ?>
-                <a href="?niveau=<?php echo htmlspecialchars($niveau); ?>" <?php echo ($niveau === $selected_niveau) ? 'style="background-color: #0056b3;"' : ''; ?>><?php echo htmlspecialchars($niveau); ?></a>
+                <a href="?niveau=<?php echo htmlspecialchars($niveau); ?>" <?php echo ($niveau === $selected_niveau) ? 'style="background-color: #0056b3;"' : ''; ?>>
+                    <i class="fas fa-graduation-cap"></i> <?php echo htmlspecialchars($niveau); ?>
+                </a>
             <?php endforeach; ?>
-            <button><a href="todo.php" style="color: white;">Retour</a></button>
+            <button><a href="todo.php" style="color: white;"><i class="fas fa-arrow-left"></i> Retour</a></button>
         </div>
 
         <?php
@@ -113,16 +118,16 @@ $selected_niveau = isset($_GET['niveau']) ? $_GET['niveau'] : 'L1';
                 if ($etudiant['module1'] !== '-' && $etudiant['module2'] !== '-' && $etudiant['module3'] !== '-' && $etudiant['module4'] !== '-') {
                     echo '<form action="edit_notes.php" method="POST" style="display:inline;">';
                     echo '<input type="hidden" name="id" value="' . htmlspecialchars($etudiant_id) . '">';
-                    echo '<button type="submit" class="edit-btn">Modifier</button>';
+                    echo '<button type="submit" class="edit-btn"><i class="fas fa-edit"></i> Modifier</button>';
                     echo '</form>';
                     echo '<form action="bulletin.php" method="GET" style="display:inline;">';
                     echo '<input type="hidden" name="id" value="' . htmlspecialchars($etudiant_id) . '">';
-                    echo '<button type="submit" class="bulletin-btn">Tirer un bulletin</button>';
+                    echo '<button type="submit" class="bulletin-btn"><i class="fas fa-file-alt"></i> Tirer un bulletin</button>';
                     echo '</form>';
                 } else {
                     echo '<form action="ajout_noteform.php" method="GET" style="display:inline;">';
                     echo '<input type="hidden" name="id" value="' . htmlspecialchars($etudiant_id) . '">';
-                    echo '<button type="submit" class="add-note-btn">Ajouter une note</button>';
+                    echo '<button type="submit" class="add-note-btn"><i class="fas fa-plus-circle"></i> Ajouter une note</button>';
                     echo '</form>';
                 }
                 echo "</td>";
@@ -132,8 +137,8 @@ $selected_niveau = isset($_GET['niveau']) ? $_GET['niveau'] : 'L1';
             echo "</tbody>";
             echo "</table>";
 
-            echo "<p>Nombre d'étudiants admis : $admis</p>";
-            echo "<p>Nombre d'étudiants recalés : $recalé</p>";
+            echo "<p class='status'>Nombre d'étudiants admis : $admis</p>";
+            echo "<p class='status'>Nombre d'étudiants recalés : $recalé</p>";
         } else {
             echo "<p>Erreur lors de la récupération des étudiants.</p>";
         }
@@ -142,5 +147,18 @@ $selected_niveau = isset($_GET['niveau']) ? $_GET['niveau'] : 'L1';
         ?>
     </div>
 </body>
+<script>
+    const toggleButton = document.getElementById('toggle-mode');
+    const body = document.body;
 
+    toggleButton.addEventListener('click', function() {
+        body.classList.toggle('day-mode');
+        
+        if (body.classList.contains('day-mode')) {
+            toggleButton.innerHTML = '<i class="fas fa-moon"></i> Mode Nuit';
+        } else {
+            toggleButton.innerHTML = '<i class="fas fa-sun"></i> Mode Jour';
+        }
+    });
+</script>
 </html>

@@ -54,7 +54,7 @@ mysqli_close($link);
         <!-- Barre latérale -->
         <aside class="sidebar">
             <div class="logo">
-                <h2>AdminFusion </h2>
+                <h2>Application de Gestion Etudiants</h2>
             </div>
             <nav class="menu-lateral">
                 <ul>
@@ -81,26 +81,33 @@ mysqli_close($link);
             </header>
 
             <section class="cards">
+
                 <div class="card">
+                    <a href="etudiant_archiver.php">
                     <div class="card-icon"><i class="fas fa-users"></i></div>
                     <div class="card-info">
                         <p>Étudiants Archivés</p>
                         <h3><?php echo $archived_students; ?></h3>
                     </div>
+                    </a>
                 </div>
                 <div class="card">
+                    <a href="todo.php">
                     <div class="card-icon"><i class="fas fa-users"></i></div>
                     <div class="card-info">
                         <p>Étudiants Non Archivés</p>
                         <h3><?php echo $non_archived_students; ?></h3>
                     </div>
+                    </a>
                 </div>
                 <div class="card">
+                    <a href="todo_admin.php">
                     <div class="card-icon"><i class="fas fa-user-shield"></i></div>
                     <div class="card-info">
                         <p>Administrateurs</p>
                         <h3><?php echo $administrators; ?></h3>
                     </div>
+                    </a>
                 </div>
                 <div class="card">
                     <div class="card-icon"><i class="fas fa-book"></i></div>

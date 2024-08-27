@@ -7,7 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #5a189a; /* Violet foncé */
+    background-color: beige; /* Violet foncé */
     color: #fff; /* Texte en blanc */
     transition: background-color 0.5s ease;
 }
@@ -15,7 +15,7 @@ body {
 /* Conteneur principal */
 .containerx {
     width: 80%;
-    background: rgba(90, 24, 154, 0.9); /* Violet avec transparence */
+    background: beige; /* Violet avec transparence */
     margin: auto;
     margin-top: 50px;
     padding: 30px;
@@ -26,7 +26,7 @@ body {
 
 /* Titre principal */
 h1 {
-    color: #fff; /* Texte en blanc */
+    color: #6a1b9a; /* Texte en blanc */
     font-size: 32px; /* Agrandissement du titre */
     text-align: center; /* Centrer le titre */
     margin-bottom: 30px;
@@ -156,4 +156,108 @@ button:hover {
 .statut-en-cours {
     background-color: orange; /* Couleur de fond orange pour "en cours" */
     color: #fff; /* Texte en blanc */
+}
+/* Styles pour le mode jour */
+body.day-mode {
+    background-color: #fff; /* Fond blanc pour le mode jour */
+    color: #000; /* Texte noir */
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.day-mode .containerx {
+    background: rgba(255, 255, 255, 0.9); /* Conteneur blanc avec transparence */
+    color: #000; /* Texte noir */
+}
+
+body.day-mode h1 {
+    color: #000; /* Titre en noir */
+}
+
+body.day-mode table {
+    background-color: #f1f1f1; /* Fond de table gris clair */
+}
+
+body.day-mode th {
+    background-color: #ddd; /* En-tête de table gris clair */
+    color: #000; /* Texte noir */
+}
+
+body.day-mode td {
+    color: #000; /* Texte noir */
+}
+
+body.day-mode tr:nth-child(even) {
+    background-color: #e9e9e9; /* Lignes paires gris clair */
+}
+
+body.day-mode tr:hover {
+    background-color: #ccc; /* Lignes survolées gris plus foncé */
+}
+
+body.day-mode .niveaux-container a {
+    background-color: #ccc; /* Boutons gris clair */
+    color: #000; /* Texte noir */
+}
+
+body.day-mode .niveaux-container a:hover {
+    background-color: #aaa; /* Boutons gris moyen au survol */
+}
+
+body.day-mode button {
+    background-color: #ccc; /* Boutons gris clair */
+    color: #000; /* Texte noir */
+}
+
+body.day-mode button:hover {
+    background-color: #aaa; /* Boutons gris moyen au survol */
+}
+
+body.day-mode .actions button {
+    background-color: #ddd; /* Boutons d'action gris clair */
+    color: #000; /* Texte noir */
+}
+
+body.day-mode .edit-btn {
+    background-color: #ffd700; /* Bouton d'édition jaune pour plus de contraste */
+    color: #000; /* Texte noir */
+}
+
+body.day-mode .add-note-btn {
+    background-color: #87ceeb; /* Bouton d'ajout bleu clair */
+    color: #000; /* Texte noir */
+}
+
+body.day-mode .statut-recale {
+    background-color: #f8d7da; /* Couleur de fond pour recalé */
+    color: #721c24; /* Texte rouge sombre */
+}
+
+body.day-mode .statut-admis {
+    background-color: #d4edda; /* Couleur de fond pour admis */
+    color: #155724; /* Texte vert sombre */
+}
+.status{
+    color: #7b2cbf;
+}
+
+body.day-mode .statut-en-cours {
+    background-color: #fff3cd; /* Couleur de fond pour en cours */
+    color: #856404; /* Texte orange sombre */
+}
+#toggle-mode {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius:#6a1b9a 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#toggle-mode.day-mode {
+    background-color: #ffb74d;
+    color: black;
 }

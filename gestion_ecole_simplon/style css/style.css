@@ -7,8 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #6a1b9a; /* Fond violet */
-    background-image: url(tof.avif);
+    background-color: beige; /* Fond violet */
     background-size: cover;
     transition: background-color 0.5s ease;
 }
@@ -18,7 +17,7 @@ body {
 
 /* Conteneur principal du formulaire */
 .container {
-    background-color: #2c3e50;
+    background-color: yellow;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
@@ -30,7 +29,7 @@ body {
 
 /* Titre du formulaire */
 h1 {
-    color: #fff;
+    color: black;
     font-size: 24px;
     margin-top: 35px;
     animation: slideIn 1s ease-out;
@@ -49,7 +48,7 @@ h1 {
 label {
     align-self: flex-start;
     font-size: 14px;
-    color: #ddd;
+    color: black;
     margin-bottom: 5px;
 }
 

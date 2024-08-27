@@ -1,7 +1,7 @@
 /* Styles de base pour la page */
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #6a11cb, #2575fc); /* Dégradé violet */
+    background-color: rgb(236, 236, 170);
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,7 +13,7 @@ body {
 
 .containerx {
     width: 70%;
-    background: linear-gradient(to right, #8e2de2, #4a00e0); /* Dégradé violet pour containerx */
+    background: white;
     margin: auto;
     margin-top: 50px;
     padding: 20px;
@@ -22,7 +22,7 @@ body {
 }
 
 h1 {
-    color: #fff; /* Texte en blanc */
+    color: black; /* Texte en blanc */
     font-size: 24px;
     margin-bottom: 20px;
     text-align: center;
@@ -35,7 +35,7 @@ button {
     margin: 10px;
     border-radius: 5px;
     border: none;
-    background: linear-gradient(to right, #6a11cb, #2575fc); /* Dégradé violet */
+    background: yellow;
     color: #fff; /* Texte en blanc */
     cursor: pointer;
     transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Transition fluide */
@@ -44,7 +44,7 @@ button {
 }
 
 button a {
-    color: #fff; /* Texte en blanc */
+    color: black; /* Texte en blanc */
     text-decoration: none;
 }
 
@@ -68,7 +68,7 @@ table {
 th, td {
     padding: 12px;
     text-align: left;
-    color: #fff; /* Texte en blanc pour le tableau */
+    color: black; /* Texte en blanc pour le tableau */
 }
 
 th {
@@ -77,7 +77,7 @@ th {
 }
 
 td {
-    background-color: #2c3e50; /* Fond gris foncé */
+    background-color: yellow; /* Fond gris foncé */
 }
 
 
@@ -96,13 +96,13 @@ td {
 }
 
 .edit-btn {
-    background-color: #28a745; /* Vert pour l'édition */
-    color: white;
+    background-color: green; /* Vert pour l'édition */
+    color: black;
 }
 
 .delete-btn {
-    background-color: #dc3545; /* Rouge pour la suppression */
-    color: white;
+    background-color: red; /* Rouge pour la suppression */
+    color: black;
 }
 
 .archive-btn {

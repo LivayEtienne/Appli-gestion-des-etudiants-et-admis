@@ -3,10 +3,10 @@ require_once "config.php";
 session_start();
 
 // Vérification de la connexion de l'utilisateur
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: login.html");
-    exit();
-}
+// if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+//     header("Location: login.html");
+//     exit();
+// }
 
 // Vérification de la présence de l'ID de l'étudiant
 if (!isset($_GET['id'])) {
@@ -129,6 +129,12 @@ mysqli_close($link);
                 <i class="fas fa-info-circle"></i> Notes non disponibles.
             </div>
         <?php endif; ?>
+        <!-- Bouton pour générer le PDF -->
+        <div class="export-button">
+            <a href="genpdf.php?id=<?= htmlspecialchars($id); ?>" class="btn-export">
+                <i class="fas fa-file-pdf"></i> Exporter en PDF
+            </a>
+        </div>
         
         <!-- Lien de retour au tableau de bord -->
         <div class="footer">

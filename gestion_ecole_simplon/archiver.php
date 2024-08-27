@@ -8,6 +8,19 @@ session_start();
 //     exit();
 // }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = mysqli_real_escape_string($link, $_POST['id']);
+    $sql = "UPDATE etudiants SET archive = 1 WHERE id = $id";
+
+    if (mysqli_query($link, $sql)) {
+        header("Location: todo.php?success=archived");
+    } else {
+        header("Location: todo.php?error=" . mysqli_error($link));
+    }
+    mysqli_close($link);
+}
+
+
 // Vérifie si l'ID de l'étudiant est passé en paramètre
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
