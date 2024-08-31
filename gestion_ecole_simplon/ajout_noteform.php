@@ -10,6 +10,7 @@ session_start();
 
 $etudiant_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $etudiant = null;
+$success_message = '';
 
 // Récupérer les informations de l'étudiant sélectionné
 if ($etudiant_id > 0) {
@@ -31,8 +32,42 @@ if ($etudiant_id > 0) {
     }
 }
 
+// Traitement du formulaire lors de la soumission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['etudiant_id'])) {
+    $module1 = $_POST['module1'];
+    $module2 = $_POST['module2'];
+    $module3 = $_POST['module3'];
+    $module4 = $_POST['module4'];
+
+    // Validation des données
+    if (is_numeric($module1) && is_numeric($module2) && is_numeric($module3) && is_numeric($module4)) {
+        $sql = "INSERT INTO notes (etudiant_id, module1, module2, module3, module4) 
+                VALUES (?, ?, ?, ?, ?) 
+                ON DUPLICATE KEY UPDATE 
+                    module1 = VALUES(module1), 
+                    module2 = VALUES(module2), 
+                    module3 = VALUES(module3), 
+                    module4 = VALUES(module4)";
+
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            mysqli_stmt_bind_param($stmt, "idddd", $etudiant_id, $module1, $module2, $module3, $module4);
+            if (mysqli_stmt_execute($stmt)) {
+                $success_message = "Les notes ont été enregistrées avec succès.";
+            } else {
+                $success_message = "Erreur lors de l'enregistrement des notes.";
+            }
+            mysqli_stmt_close($stmt);
+        } else {
+            $success_message = "Erreur lors de la préparation de la requête.";
+        }
+    } else {
+        $success_message = "Veuillez entrer des valeurs numériques valides pour toutes les notes.";
+    }
+}
+
 mysqli_close($link);
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -41,22 +76,68 @@ mysqli_close($link);
     <title>Ajouter des Notes</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style css/ajout_noteform.css">
+    <style>
+        /* Styles pour la modal */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            padding-top: 100px; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <div class="containerx">
         <h1>Ajouter des Notes</h1>
         <?php if ($etudiant) : ?>
-            <form action="list_notes.php" method="POST">
+            <form action="ajout_noteform.php?id=<?php echo htmlspecialchars($etudiant['id']); ?>" method="POST">
                 <input type="hidden" name="etudiant_id" value="<?php echo htmlspecialchars($etudiant['id']); ?>">
-                            <p class="etudiant-info">
-                <i class="fas fa-user"></i>
-                <strong>Nom :</strong> <?php echo htmlspecialchars($etudiant['nom']); ?>
-            </p>
-            <p class="etudiant-info">
-                <i class="fas fa-user"></i>
-                <strong>Prénom :</strong> <?php echo htmlspecialchars($etudiant['prenom']); ?>
-            </p>
-
+                <p class="etudiant-info">
+                    <i class="fas fa-user"></i>
+                    <strong>Nom :</strong> <?php echo htmlspecialchars($etudiant['nom']); ?>
+                </p>
+                <p class="etudiant-info">
+                    <i class="fas fa-user"></i>
+                    <strong>Prénom :</strong> <?php echo htmlspecialchars($etudiant['prenom']); ?>
+                </p>
                 <br>
                 <label for="module1">Note Module 1 :</label>
                 <input type="number" name="module1" id="module1" step="0.01" min="0" max="20">
@@ -77,97 +158,36 @@ mysqli_close($link);
         <?php endif; ?>
         <a href="list_notes.php" class="button-link">Retour à la liste des notes</a>
     </div>
-</body>
-</html>
 
-
-        
-        <script>
-        // Temps d'inactivité avant la déconnexion (en millisecondes)
-        const INACTIVITY_TIME = 60000; // 1 minute
-
-        let inactivityTimer;
-        let countdownTimer;
-        let timeLeft = INACTIVITY_TIME;
-
-        function startCountdown() {
-            const countdownDisplay = document.getElementById('countdown');
-            countdownTimer = setInterval(() => {
-                if (timeLeft <= 0) {
-                    clearInterval(countdownTimer);
-                    logoutUser();
-                    return;
-                }
-
-                const minutes = Math.floor(timeLeft / 60000);
-                const seconds = Math.floor((timeLeft % 60000) / 1000);
-                countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                timeLeft -= 1000;
-            }, 1000);
-        }
-
-        function resetTimer() {
-            clearTimeout(inactivityTimer);
-            clearInterval(countdownTimer);
-
-            timeLeft = INACTIVITY_TIME;
-            startCountdown();
-
-            inactivityTimer = setTimeout(logoutUser, INACTIVITY_TIME);
-        }
-
-        function logoutUser() {
-            window.location.href = './login.php'; // Ajustez cette URL en fonction de votre logique de déconnexion
-        }
-
-        function createTimerDisplay() {
-            const timerDiv = document.createElement('div');
-            timerDiv.id = 'timer-container';
-            timerDiv.style.position = 'fixed';
-            timerDiv.style.top = '0';
-            timerDiv.style.right = '0';
-            timerDiv.style.backgroundColor = '#f0f0f0';
-            timerDiv.style.border = '1px solid #ccc';
-            timerDiv.style.padding = '5px 10px';
-            timerDiv.style.zIndex = '1000';
-            timerDiv.style.fontFamily = 'Arial, sans-serif';
-            timerDiv.style.fontSize = '14px';
-            timerDiv.style.color = '#333';
-
-            const icon = document.createElement('img');
-            icon.src = 'time.png'; // Remplacez par le chemin vers votre icône d'horloge
-            icon.style.width = '16px';
-            icon.style.height = '16px';
-            icon.style.verticalAlign = 'middle';
-            icon.alt = 'Clock Icon';
-
-            const countdownDisplay = document.createElement('span');
-            countdownDisplay.id = 'countdown';
-            countdownDisplay.textContent = '1:00'; // Initialisation à 1 minute
-
-            timerDiv.appendChild(icon);
-            timerDiv.appendChild(document.createTextNode(' '));
-            timerDiv.appendChild(countdownDisplay);
-
-            document.body.appendChild(timerDiv);
-        }
-
-        window.onload = function() {
-            createTimerDisplay();
-            resetTimer();
-
-            document.onmousemove = resetTimer;
-            document.onkeypress = resetTimer;
-            document.ontouchstart = resetTimer; // Pour les appareils tactiles
-            document.onchange = resetTimer;
-
-            window.onfocus = resetTimer;
-            window.onblur = function() {
-                clearTimeout(inactivityTimer);
-                clearInterval(countdownTimer);
-            };
-        };
-        </script>
+    <?php if ($success_message) : ?>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p class="<?php echo strpos($success_message, 'succès') !== false ? 'success' : 'error'; ?>">
+                <?php echo $success_message; ?>
+            </p>
+        </div>
     </div>
+    <script>
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Afficher la modal
+        modal.style.display = "block";
+
+        // Fermer la modal en cliquant sur le bouton "x"
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Fermer la modal si l'utilisateur clique en dehors de la modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <?php endif; ?>
+
 </body>
 </html>

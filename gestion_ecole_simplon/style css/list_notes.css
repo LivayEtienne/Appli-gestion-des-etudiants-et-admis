@@ -142,15 +142,16 @@ button:hover {
     background-color: #138496;
 }
 
-/* Statut d'admission */
-.statut-recale {
-    background-color: red; /* Couleur de fond rouge pour les recalés */
-    color: #fff; /* Texte en blanc */
+/* Statut "admis" */
+tr.statut-admis {
+    background-color: #28a745; /* Vert pour les étudiants admis */
+    color: #fff;
 }
 
-.statut-admis {
-    background-color: #218838; /* Couleur de fond verte pour les admis */
-    color: #fff; /* Texte en blanc */
+/* Statut "recalé" */
+tr.statut-recale {
+    background-color: #dc3545; /* Rouge pour les étudiants recalés */
+    color: #fff;
 }
 
 .statut-en-cours {
